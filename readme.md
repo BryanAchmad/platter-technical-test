@@ -14,7 +14,7 @@ Ensure you have the following installed on your machine:
 Clone the repository to your local machine:
 
 ```bash
-git clone https://github.com/your-github-username/platter-technical-test.git
+git clone https://github.com/BryanAchmad/platter-technical-test.git
 cd platter-technical-test
 ```
 
