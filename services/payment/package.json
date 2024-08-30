@@ -1,0 +1,14 @@
+{
+	"name": "payment-service",
+	"version": "1.0.0",
+	"description": "Payment service",
+	"main": "payment.js",
+	"scripts": {
+		"start": "node payment.js"
+	},
+	"dependencies": {
+		"amqplib": "^0.10.4",
+		"express": "^4.19.2",
+		"pg": "^8.12.0"
+	}
+}

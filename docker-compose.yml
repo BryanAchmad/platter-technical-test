@@ -1,0 +1,71 @@
+version: '3.8'
+
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=user
+      - RABBITMQ_DEFAULT_PASS=password
+
+  postgres:
+    image: postgres:13
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "5432:5432"
+
+  product:
+    build:
+      context: ./services/product
+      dockerfile: Dockerfile.product
+    ports:
+      - "9301:9301"
+    depends_on:
+      - postgres
+      - rabbitmq
+    environment:
+      - DATABASE_URL=postgres://postgres:postgres@postgres:5432/product
+      - RABBITMQ_URL=amqp://user:password@rabbitmq:5672
+
+  payment:
+    build:
+      context: ./services/payment
+      dockerfile: Dockerfile.payment
+    ports:
+      - "9302:9302"
+    depends_on:
+      - postgres
+      - rabbitmq
+    environment:
+      - DATABASE_URL=postgres://postgres:postgres@postgres:5432/payment
+      - RABBITMQ_URL=amqp://user:password@rabbitmq:5672
+
+  user:
+    build:
+      context: ./services/user
+      dockerfile: Dockerfile.user
+    ports:
+      - "9303:9303"
+    depends_on:
+      - postgres
+      - rabbitmq
+    environment:
+      - DATABASE_URL=postgres://postgres:postgres@postgres:5432/user_db
+      - RABBITMQ_URL=amqp://user:password@rabbitmq:5672
+
+  notification:
+    build:
+      context: ./services/notification
+      dockerfile: Dockerfile.notification
+    ports:
+      - "9304:9304"
+      - "9305:9305"
+    depends_on:
+      - rabbitmq
+    environment:
+      - RABBITMQ_URL=amqp://user:password@rabbitmq:5672

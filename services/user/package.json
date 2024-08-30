@@ -1,0 +1,16 @@
+{
+	"name": "user-service",
+	"version": "1.0.0",
+	"description": "User service",
+	"main": "user.js",
+	"scripts": {
+		"start": "node user.js"
+	},
+	"dependencies": {
+		"socket.io": "^4.1.2",
+		"amqplib": "^0.10.4",
+		"axios": "^1.7.5",
+		"express": "^4.19.2",
+		"pg": "^8.12.0"
+	}
+}
